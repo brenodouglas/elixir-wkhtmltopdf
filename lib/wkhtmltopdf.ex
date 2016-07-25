@@ -40,6 +40,9 @@ defmodule Wkhtmltopdf do
       end
     end
 
+    @doc """
+      Received path html file
+    """
     def open(html_file) do
       unless File.exists?(html_file) do
         raise %ExitException{status: "File not found"}
@@ -48,14 +51,25 @@ defmodule Wkhtmltopdf do
       [html_file]
     end
 
+    @doc """
+      Run command
+    """
     def run([command|args]) do
       Wkhtmltopdf.Runner.exec command, args
-      command
+      List.last(args)
     end
 
+    @doc """
+      Generate command and run
+    """
+    def run_command(opts) do
+      [command|args] = command(opts)
+      Wkhtmltopdf.Runner.exec command, args
+      List.last(args)
+    end
 
     @doc """
-      Generate command
+      Generate command and generate list
     """
     def command(opts) do
         Enum.concat(opts, [@binary])
@@ -63,7 +77,7 @@ defmodule Wkhtmltopdf do
     end
 
     @doc """
-      Generate command
+      Generate command string
     """
     def command(opts, :true) do
         Enum.concat(opts, [@binary])

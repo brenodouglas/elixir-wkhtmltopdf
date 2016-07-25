@@ -1,5 +1,5 @@
 defmodule WkhtmltopdfTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   import Wkhtmltopdf;
   doctest Wkhtmltopdf
 
@@ -7,14 +7,22 @@ defmodule WkhtmltopdfTest do
     File.touch("/tmp/page.html")  
   end
 
-  test "Teste command with dpi" do
+  test "Test command with dpi" do
     command = open("/tmp/page.html") 
                   |> dpi(12)
                   |> path("/tmp/file.pdf")
                   |> command()
                   |> run()
 
-    assert command == "wkhtmltopdf --dpi 12 /tmp/page.html /tmp/file.pdf"
+    assert command == "/tmp/file.pdf"
+  end
+
+  test "Test command runner method" do
+    command = open("/tmp/page.html") 
+                  |> path("/tmp/file_result.pdf")
+                  |> run_command()
+
+    assert command == "/tmp/file_result.pdf"
   end
 
   test "Test html file not exists" do

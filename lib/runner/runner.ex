@@ -1,7 +1,7 @@
 defmodule Wkhtmltopdf.Runner do
-  ### GenServer API
-
   use GenServer
+
+  ### GenServer API
 
   @doc """
   GenServer.init/1 callback
@@ -12,7 +12,7 @@ defmodule Wkhtmltopdf.Runner do
   GenServer.handle_cast/2 callback
   """
   def handle_cast({:exec, command, args}, state) do
-    System.cmd command, args
+    System.cmd command, args, parallelism: true
     {:noreply, [command|state]}
   end
 
