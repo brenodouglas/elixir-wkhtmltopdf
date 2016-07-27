@@ -13,9 +13,9 @@ defmodule WkhtmltopdfTest do
       command = open("/tmp/page.html") 
                     |> dpi(12)
                     |> path("/tmp/file.pdf")
-                    |> run_command()
+                    |> command(:true)
 
-      assert command == "/tmp/file.pdf"
+      assert command == "wkhtmltopdf --dpi 12 /tmp/page.html /tmp/file.pdf"
     end
 
     test "Test command runner method" do
