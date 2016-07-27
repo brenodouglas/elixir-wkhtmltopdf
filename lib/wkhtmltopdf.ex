@@ -72,7 +72,7 @@ defmodule Wkhtmltopdf do
       Generate command and generate list
     """
     def command(opts) do
-        Enum.concat(opts, [@binary])
+        Enum.concat(opts, ["-q", @binary])
              |> Enum.reverse()
     end
 

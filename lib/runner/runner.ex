@@ -12,8 +12,8 @@ defmodule Wkhtmltopdf.Runner do
   GenServer.handle_cast/2 callback
   """
   def handle_cast({:exec, command, args}, state) do
-    System.cmd command, args, parallelism: true
-    {:noreply, [command|state]}
+    task = Task.async(fn -> System.cmd command, args end)
+    {:noreply, [Task.await(task)|state]}
   end
 
   ### Client API / Helper methods
